@@ -26,6 +26,7 @@ const int KEY_O = 1005;
 const int KEY_A = 1006;
 const int KEY_E = 1007;
 const int KEY_R = 1008;
+const int KEY_D = 1009;
 
 void startInteractiveTUI(){   // MAIN
   bool running = true;
@@ -34,7 +35,7 @@ void startInteractiveTUI(){   // MAIN
   int selected = 0;
 
   if (firstRender){
-    std::cout << "---------------------------------------------------------------------\n";
+    std::cout << "-----------------------------------------------------------------------------------------\n";
     render(getShortcutUrlPairs(), selected, firstRender);
     firstRender = false;
   }
@@ -102,10 +103,11 @@ void startInteractiveTUI(){   // MAIN
       case KEY_R: {
         running = false;
         restoreMode();
+
         std::vector<std::pair<std::string, std::string>> pairs = getShortcutUrlPairs();
         std::string shortcut = pairs[selected].first;
 
-        bool removed = removeShortcut(shortcut);
+        bool removed = removeShortcut(shortcut, false);
 
         if (pairs.size() != 1 || !removed){
           firstRender = true;
@@ -113,6 +115,23 @@ void startInteractiveTUI(){   // MAIN
         }
         break;
       };
+
+      case KEY_D: {
+        running = false;
+        restoreMode();
+
+        if (confirmDeleteAll()){
+          for (const auto& [shortcut, url] : getShortcutUrlPairs()){
+            removeShortcut(shortcut, true);
+          }
+          break;
+        } else {
+          std::cout << "Confirmation Failed\n";
+          firstRender = true;
+          startInteractiveTUI();
+          break;
+        }        
+      }
     }
   }
 
@@ -167,6 +186,7 @@ int readKey(){
       if (key_ascii == 'a') return KEY_A;
       if (key_ascii == 'e') return KEY_E;
       if (key_ascii == 'r') return KEY_R;
+      if (key_ascii == 'd') return KEY_D;
     }
   }
 }
@@ -185,7 +205,7 @@ void render(std::vector<std::pair<std::string, std::string>> pairs, int selected
     std::cout << prefix << pairs[i].first << ": " << pairs[i].second << "\033[0m\n";
   }
 
-  std::cout << "---------------------------------------------------------------------\n";
-  std::cout << "[o] to Open | [a] to Add | [e] to edit | [r] to remove | [q] to Exit\n";
+  std::cout << "-----------------------------------------------------------------------------------------\n";
+  std::cout << "[o] to Open | [a] to Add | [e] to edit | [r] to remove | [d] to remove all | [q] to Exit\n";
   std::cout.flush();
 }

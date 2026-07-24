@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
 
     if (arg_1 == "rm"){
       std::string& shortcut = arg_2;
-      removeShortcut(shortcut);
+      removeShortcut(shortcut, false);
       return 0;
     } else if (arg_1 == "ls" && (arg_2 == "-t" || arg_2 == "--tui")){
       openAnoiTui();
@@ -64,6 +64,10 @@ int main(int argc, char* argv[]){
       std::string& url = arg_3;
 
       updateShortcut(shortcut, url);
+      return 0;
+    } else if (arg_1 == "rm" && (arg_3 == "-f" || arg_3 == "--force")){
+      std::string& shortcut = arg_2;
+      removeShortcut(shortcut, true);
       return 0;
     }
   }
