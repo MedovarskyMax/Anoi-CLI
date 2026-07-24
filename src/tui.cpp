@@ -23,19 +23,21 @@ const int KEY_DOWN = 1002;
 const int KEY_LEFT = 1003;
 const int KEY_Q = 1004;
 const int KEY_O = 1005;
-
+const int KEY_A = 1006;
 
 void startInteractiveTUI(){   // MAIN
+  bool running = true;
   enableRawMode();
 
   int selected = 0;
 
   if (firstRender){
+    std::cout << "---------------------------------------\n";
     render(getShortcutUrlPairs(), selected, firstRender);
     firstRender = false;
   }
 
-  while (true){
+  while (running){
     int c = readKey();
     int pairsNum = (int) getShortcutUrlPairs().size();
 
@@ -58,6 +60,23 @@ void startInteractiveTUI(){   // MAIN
         openURL(getShortcutUrlPairs()[selected].first);
         break;
       };
+
+      case KEY_A: {
+        running = false;
+        restoreMode();
+        std::cout << "Shortcut: ";
+        std::string shortcut;
+        std::getline(std::cin, shortcut); 
+
+        std::cout << "Url: ";
+        std::string url;
+        std::getline(std::cin, url);
+
+        addShortcut(shortcut, url);
+        firstRender = true;
+        startInteractiveTUI();
+        break;
+      }
     }
 
   }
@@ -110,6 +129,7 @@ int readKey(){
 
       if (key_ascii == 'q') return KEY_Q;
       if (key_ascii == 'o') return KEY_O;
+      if (key_ascii == 'a') return KEY_A;
     }
   }
 }
@@ -128,7 +148,7 @@ void render(std::vector<std::pair<std::string, std::string>> pairs, int selected
     std::cout << prefix << pairs[i].first << ": " << pairs[i].second << "\033[0m\n";
   }
 
-  std::cout << "----------------------------\n";
-  std::cout << "[o] to Open | [q] to Exit\n";
+  std::cout << "---------------------------------------\n";
+  std::cout << "[o] to Open | [a] to Add | [q] to Exit\n";
   std::cout.flush();
 }
