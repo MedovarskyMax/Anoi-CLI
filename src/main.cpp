@@ -41,7 +41,7 @@ int main(int argc, char* argv[]){
       std::string& shortcut = arg_2;
       removeShortcut(shortcut);
       return 0;
-    } else if (arg_1 == "ls" && arg_2 == "-tui"){
+    } else if (arg_1 == "ls" && (arg_2 == "-t" || arg_2 == "--tui")){
       openAnoiTui();
       return 0;
     }
