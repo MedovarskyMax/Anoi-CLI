@@ -206,6 +206,6 @@ void render(std::vector<std::pair<std::string, std::string>> pairs, int selected
   }
 
   std::cout << "-----------------------------------------------------------------------------------------\n";
-  std::cout << "[o] to Open | [a] to Add | [e] to edit | [r] to remove | [d] to remove all | [q] to Exit\n";
+  std::cout << "\033[96m[o] to Open\033[0m | \033[92m[a] to Add\033[0m | \033[33m[e] to Edit\033[0m | \033[91m[r] to Remove\033[0m | \033[31m[d] to Remove All\033[0m | [q] to Exit\n";
   std::cout.flush();
 }
