@@ -6,6 +6,10 @@
 #include <string>
 #include <vector>
 
+
+bool confirmDelete();
+
+
 void printHelp(){
   std::cout << "\033[1mAnoi\033[0m is a lightweight CLI which lets you";
   std::cout << " \033[32mcreate\033[0m, \033[33medit\033[0m, \033[31mremove\033[0m and \033[96mbrowse\033[0m shortcuts\n\n";
@@ -39,7 +43,11 @@ void openURL(std::string shortcut){
 
 
 void removeShortcut(std::string shortcut){
-  removeJson(shortcut);
+  if (confirmDelete()){
+    removeJson(shortcut);
+  } else {
+    std::cout << "Confirmation Failed";
+  }
 }
 
 
@@ -51,4 +59,17 @@ void addShortcut(std::string shortcut, std::string url){
 void updateShortcut(std::string shortcut, std::string url){
   removeJson(shortcut);
   saveJson(shortcut, url);
+}
+
+
+bool confirmDelete(){
+  std::string confirmation;
+  std::cout << "Type \"delete\" to confirm deletion: ";
+  std::getline(std::cin, confirmation);
+
+  if (confirmation == "delete"){
+    return true; 
+  }
+
+  return false;
 }
