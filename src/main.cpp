@@ -3,7 +3,7 @@
 #include "include/functions.h"
 
 
-const std::string VERSION = "beta";
+const std::string VERSION = "1.0.0";
 
 
 int main(int argc, char* argv[]){
