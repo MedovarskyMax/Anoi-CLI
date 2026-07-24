@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "include/storage.h"
+#include "include/functions.h"
 
 
 void enableRawMode();
@@ -21,6 +22,7 @@ const int KEY_RIGHT = 1001;
 const int KEY_DOWN = 1002;
 const int KEY_LEFT = 1003;
 const int KEY_Q = 1004;
+const int KEY_O = 1005;
 
 
 void startInteractiveTUI(){   // MAIN
@@ -50,7 +52,12 @@ void startInteractiveTUI(){   // MAIN
         selected = (selected + 1) % pairsNum;
         render(getShortcutUrlPairs(), selected, firstRender);
         break;
-      }
+      };
+
+      case KEY_O: {
+        openURL(getShortcutUrlPairs()[selected].first);
+        break;
+      };
     }
 
   }
@@ -101,7 +108,8 @@ int readKey(){
       if (vk == VK_DOWN) return KEY_DOWN;
       if (vk == VK_LEFT) return KEY_LEFT;
 
-      if (key_ascii = 'q') return KEY_Q;
+      if (key_ascii == 'q') return KEY_Q;
+      if (key_ascii == 'o') return KEY_O;
     }
   }
 }
@@ -115,13 +123,16 @@ void render(std::vector<std::pair<std::string, std::string>> pairs, int selected
   for (size_t i = 0; i < pairs.size(); i++){
     std::cout << "\x1b[2K";
 
-    if ((int) i == selected){
-      std::cout << "> " << pairs[i].first << ": " << pairs[i].second << "\n";
+    std::string prefix = ((int) i == selected) ? "> " : "  ";
+    bool isLast = ((int) i == pairs.size() - 1);
+
+    if (isLast){
+      std::cout << "\033[4m" << prefix << pairs[i].first << ": " << pairs[i].second << "\033[0m\n";
     } else {
-      std::cout << "  " << pairs[i].first << ": " << pairs[i].second << "\n";
-    }
+      std::cout << prefix << pairs[i].first << ": " << pairs[i].second << "\n";
+    }    
   }
 
-  std::cout << "[q] to Exit\n";
+  std::cout << "[o] to Open | [q] to Exit\n";
   std::cout.flush();
 }
