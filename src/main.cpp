@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "include/functions.h"
 
 
 const std::string VERSION = "beta";
@@ -7,7 +8,7 @@ const std::string VERSION = "beta";
 
 int main(int argc, char* argv[]){
   if (argc == 1){
-    // opens anoi TUI
+    openAnoiTui();
     return 0;
   }
 
@@ -16,17 +17,17 @@ int main(int argc, char* argv[]){
     std::string arg_1 = argv[1];
 
     if (arg_1 == "--help" || arg_1 == "-h"){
-      // print help
+      printHelp();
       return 0;
     } else if (arg_1 == "--version" || arg_1 == "-v"){
       std::cout << VERSION << "\n";
       return 0;
     } else if (arg_1 == "ls"){
-      // list all shortcuts & urls
+      listAllShortcuts();
       return 0;
     } else {
       std::string& shortcut = arg_1;
-      // query known keys => if found open associated URL, else throw error
+      openURL(shortcut);
       return 0;
     }
   }
@@ -38,10 +39,10 @@ int main(int argc, char* argv[]){
 
     if (arg_1 == "rm"){
       std::string& shortcut = arg_2;
-      // query shortcut in keys, if found remove from storage
+      removeShortcut(shortcut);
       return 0;
     } else if (arg_1 == "ls" && arg_2 == "-tui"){
-      // open anoi TUI
+      openAnoiTui();
       return 0;
     }
   }
@@ -56,13 +57,13 @@ int main(int argc, char* argv[]){
       std::string& shortcut = arg_2;
       std::string& url = arg_3;
 
-      // if shortcut not in key list => save shortcut & url, else throw
+      addShortcut(shortcut, url);
       return 0;
     } else if (arg_1 == "edit"){
       std::string& shortcut = arg_2;
       std::string& url = arg_3;
 
-      // edit (update) value at shortcut to url
+      updateShortcut(shortcut, url);
       return 0;
     }
   }
