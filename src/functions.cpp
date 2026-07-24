@@ -1,6 +1,7 @@
 #include <iostream>
 #include <include/functions.h>
 #include <include/storage.h>
+#include <include/tui.h>
 #include <windows.h>
 #include <string>
 #include <vector>
@@ -20,7 +21,7 @@ void printHelp(){
 
 
 void openAnoiTui(){
-  
+  startInteractiveTUI();
 }
 
 
