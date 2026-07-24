@@ -1,5 +1,7 @@
 #include <iostream>
 #include <include/functions.h>
+#include <include/storage.h>
+#include <windows.h>
 
 void printHelp(){
   std::cout << "\033[1mAnoi\033[0m is a lightweight CLI which lets you";
@@ -26,7 +28,8 @@ void listAllShortcuts(){
 
 
 void openURL(std::string shortcut){
-
+  std::string url = getUrl(shortcut);
+  ShellExecuteA(NULL, "open", url.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 
 
@@ -36,7 +39,7 @@ void removeShortcut(std::string shortcut){
 
 
 void addShortcut(std::string shortcut, std::string url){
-
+  saveJson(shortcut, url);
 }
 
 

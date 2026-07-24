@@ -14,6 +14,7 @@ json loadJson();
 void writeJson(const json& data);
 void saveJson(std::string shortcut, std::string url);
 void removeJson(std::string shortcut);
+std::string getUrl(std::string shortcut);
 
 std::string getAppDataPath(){
   const char* appData = std::getenv("APPDATA");
@@ -83,4 +84,16 @@ void removeJson(std::string shortcut){
 
   data.erase(shortcut);
   writeJson(data);
+}
+
+
+std::string getUrl(std::string shortcut){
+  json data = loadJson();
+  std::string url = data.value(shortcut, "");
+
+  if (url.empty()){
+    throw std::runtime_error("getUrl Error - no such url or shortcut");
+  }
+
+  return url;
 }
