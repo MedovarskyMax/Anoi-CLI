@@ -25,6 +25,7 @@ const int KEY_Q = 1004;
 const int KEY_O = 1005;
 const int KEY_A = 1006;
 const int KEY_E = 1007;
+const int KEY_R = 1008;
 
 void startInteractiveTUI(){   // MAIN
   bool running = true;
@@ -33,7 +34,7 @@ void startInteractiveTUI(){   // MAIN
   int selected = 0;
 
   if (firstRender){
-    std::cout << "-----------------------------------------------------\n";
+    std::cout << "---------------------------------------------------------------------\n";
     render(getShortcutUrlPairs(), selected, firstRender);
     firstRender = false;
   }
@@ -97,8 +98,19 @@ void startInteractiveTUI(){   // MAIN
         startInteractiveTUI();
         break;
       };
-    }
 
+      case KEY_R: {
+        running = false;
+        restoreMode();
+
+        std::string shortcut = getShortcutUrlPairs()[selected].first;
+        removeShortcut(shortcut);
+
+        firstRender = true;
+        startInteractiveTUI();
+        break;
+      };
+    }
   }
 
   restoreMode();
@@ -151,6 +163,7 @@ int readKey(){
       if (key_ascii == 'o') return KEY_O;
       if (key_ascii == 'a') return KEY_A;
       if (key_ascii == 'e') return KEY_E;
+      if (key_ascii == 'r') return KEY_R;
     }
   }
 }
@@ -169,7 +182,7 @@ void render(std::vector<std::pair<std::string, std::string>> pairs, int selected
     std::cout << prefix << pairs[i].first << ": " << pairs[i].second << "\033[0m\n";
   }
 
-  std::cout << "-----------------------------------------------------\n";
-  std::cout << "[o] to Open | [a] to Add | [e] to edit | [q] to Exit\n";
+  std::cout << "---------------------------------------------------------------------\n";
+  std::cout << "[o] to Open | [a] to Add | [e] to edit | [r] to remove | [q] to Exit\n";
   std::cout.flush();
 }
