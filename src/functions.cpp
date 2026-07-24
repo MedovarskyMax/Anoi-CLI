@@ -34,7 +34,7 @@ void openURL(std::string shortcut){
 
 
 void removeShortcut(std::string shortcut){
-
+  removeJson(shortcut);
 }
 
 
