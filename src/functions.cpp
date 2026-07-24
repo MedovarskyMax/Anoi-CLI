@@ -45,6 +45,7 @@ void openURL(std::string shortcut){
 void removeShortcut(std::string shortcut){
   if (confirmDelete()){
     removeJson(shortcut);
+    std::cout << "Successfully removed: " << shortcut << "\n";
   } else {
     std::cout << "Confirmation Failed";
   }
@@ -64,8 +65,9 @@ void updateShortcut(std::string shortcut, std::string url){
 
 bool confirmDelete(){
   std::string confirmation;
-  std::cout << "Type \"delete\" to confirm deletion: ";
+  std::cout << "Type \"\033[91mdelete\033[0m\" to confirm deletion: \033[91m";
   std::getline(std::cin, confirmation);
+  std::cout << "\033[0m";
 
   if (confirmation == "delete"){
     return true; 

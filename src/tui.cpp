@@ -102,12 +102,14 @@ void startInteractiveTUI(){   // MAIN
       case KEY_R: {
         running = false;
         restoreMode();
-
-        std::string shortcut = getShortcutUrlPairs()[selected].first;
+        std::vector<std::pair<std::string, std::string>> pairs = getShortcutUrlPairs();
+        std::string shortcut = pairs[selected].first;
         removeShortcut(shortcut);
 
-        firstRender = true;
-        startInteractiveTUI();
+        if (pairs.size() != 1){
+          firstRender = true;
+          startInteractiveTUI();
+        }
         break;
       };
     }
