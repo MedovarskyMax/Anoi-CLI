@@ -2,6 +2,8 @@
 #include <include/functions.h>
 #include <include/storage.h>
 #include <windows.h>
+#include <string>
+#include <vector>
 
 void printHelp(){
   std::cout << "\033[1mAnoi\033[0m is a lightweight CLI which lets you";
@@ -23,7 +25,9 @@ void openAnoiTui(){
 
 
 void listAllShortcuts(){
-
+  for (auto& [shortcut, url] : getShortcutUrlPairs()){
+    std::cout << shortcut << ": " << url << "\n";
+  }
 }
 
 

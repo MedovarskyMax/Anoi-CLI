@@ -97,3 +97,15 @@ std::string getUrl(std::string shortcut){
 
   return url;
 }
+
+
+std::vector<std::pair<std::string, std::string>> getShortcutUrlPairs(){
+  json data = loadJson();
+  std::vector<std::pair<std::string, std::string>> output;
+
+  for (auto& [key, value] : data.items()){
+    output.emplace_back(key, value.get<std::string>());
+  }
+
+  return output;
+}
