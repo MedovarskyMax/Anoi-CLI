@@ -54,6 +54,8 @@ void removeShortcut(std::string shortcut){
 
 void addShortcut(std::string shortcut, std::string url){
   bool isKeyConflict = false;
+  bool invalidShortcutName = false;
+
   for (const auto& p : getShortcutUrlPairs()){
     if (p.first == shortcut){
       isKeyConflict = true;
@@ -61,11 +63,22 @@ void addShortcut(std::string shortcut, std::string url){
     }
   }
 
-  if (!isKeyConflict){
-    saveJson(shortcut, url);
-  } else {
-    std::cout << "Shortcut conflict, save aborted.\n";
+  if (shortcut.find(" ") != std::string::npos){
+    invalidShortcutName = true;
   }
+
+
+  if (isKeyConflict){
+    std::cout << "Shortcut conflict, save aborted.\n";
+    return;
+  }
+  
+  if (invalidShortcutName){
+    std::cout << "Invalid shortcut name, save aborted.\n";
+    return;
+  }
+
+  saveJson(shortcut, url);
 }
 
 
