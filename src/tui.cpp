@@ -117,22 +117,18 @@ int readKey(){
 
 void render(std::vector<std::pair<std::string, std::string>> pairs, int selected, bool firstRender){
   if (!firstRender){
-    std::cout << "\x1b[" << pairs.size() + 1 << "A";
+    std::cout << "\x1b[" << pairs.size() + 2 << "A";
   }
 
   for (size_t i = 0; i < pairs.size(); i++){
     std::cout << "\x1b[2K";
 
     std::string prefix = ((int) i == selected) ? "\033[1m> " : "  ";
-    bool isLast = ((int) i == pairs.size() - 1);
 
-    if (isLast){
-      std::cout << "\033[4m" << prefix << pairs[i].first << ": " << pairs[i].second << "\033[0m\n";
-    } else {
-      std::cout << prefix << pairs[i].first << ": " << pairs[i].second << "\033[0m\n";
-    }    
+    std::cout << prefix << pairs[i].first << ": " << pairs[i].second << "\033[0m\n";
   }
 
+  std::cout << "----------------------------\n";
   std::cout << "[o] to Open | [q] to Exit\n";
   std::cout.flush();
 }
