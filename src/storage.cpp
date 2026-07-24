@@ -13,7 +13,7 @@ std::string getConfigPath();
 json loadJson();
 void writeJson(const json& data);
 void saveJson(std::string shortcut, std::string url);
-void removeJson(std::string shortcut);
+bool removeJson(std::string shortcut);
 std::string getUrl(std::string shortcut);
 
 std::string getAppDataPath(){
@@ -74,16 +74,17 @@ void saveJson(std::string shortcut, std::string url){
 }
 
 
-void removeJson(std::string shortcut){
+bool removeJson(std::string shortcut){
   json data = loadJson();
 
   if (!data.contains(shortcut)){
     std::cout << "Shortcut \"" << shortcut << "\" not found, nothing to remove.\n";
-    return;
+    return false;
   }
 
   data.erase(shortcut);
   writeJson(data);
+  return true;
 }
 
 

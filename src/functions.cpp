@@ -72,7 +72,7 @@ void addShortcut(std::string shortcut, std::string url){
     std::cout << "Shortcut conflict, save aborted.\n";
     return;
   }
-  
+
   if (invalidShortcutName){
     std::cout << "Invalid shortcut name, save aborted.\n";
     return;
@@ -83,7 +83,10 @@ void addShortcut(std::string shortcut, std::string url){
 
 
 void updateShortcut(std::string shortcut, std::string url){
-  removeJson(shortcut);
+  if (!removeJson(shortcut)){
+    return;
+  }
+  
   saveJson(shortcut, url);
 }
 

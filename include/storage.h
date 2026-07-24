@@ -5,7 +5,7 @@
 #include <vector>
 
 extern void saveJson(std::string shortcut, std::string url);
-extern void removeJson(std::string shortcut);
+extern bool removeJson(std::string shortcut);
 extern std::string getUrl(std::string shortcut);
 extern std::vector<std::pair<std::string, std::string>> getShortcutUrlPairs();
 
