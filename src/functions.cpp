@@ -54,7 +54,7 @@ bool removeShortcut(std::string shortcut, bool force){
     return false;
   } else {
     removeJson(shortcut);
-    std::cout << "Successfully remove: " << shortcut << "\n";
+    std::cout << "Successfully removed: " << shortcut << "\n";
     return true;
   }
 }
