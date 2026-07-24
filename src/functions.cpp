@@ -42,13 +42,15 @@ void openURL(std::string shortcut){
 }
 
 
-void removeShortcut(std::string shortcut){
+bool removeShortcut(std::string shortcut){
   if (confirmDelete()){
     removeJson(shortcut);
     std::cout << "Successfully removed: " << shortcut << "\n";
-  } else {
-    std::cout << "Confirmation Failed";
+    return true;
   }
+  
+  std::cout << "Confirmation Failed\n";
+  return false;
 }
 
 
@@ -86,7 +88,7 @@ void updateShortcut(std::string shortcut, std::string url){
   if (!removeJson(shortcut)){
     return;
   }
-  
+
   saveJson(shortcut, url);
 }
 

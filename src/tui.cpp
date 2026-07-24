@@ -104,9 +104,10 @@ void startInteractiveTUI(){   // MAIN
         restoreMode();
         std::vector<std::pair<std::string, std::string>> pairs = getShortcutUrlPairs();
         std::string shortcut = pairs[selected].first;
-        removeShortcut(shortcut);
 
-        if (pairs.size() != 1){
+        bool removed = removeShortcut(shortcut);
+
+        if (pairs.size() != 1 || !removed){
           firstRender = true;
           startInteractiveTUI();
         }
