@@ -44,5 +44,6 @@ void addShortcut(std::string shortcut, std::string url){
 
 
 void updateShortcut(std::string shortcut, std::string url){
-
+  removeJson(shortcut);
+  saveJson(shortcut, url);
 }
