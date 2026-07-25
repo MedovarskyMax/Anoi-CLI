@@ -23,7 +23,7 @@ g++ -o build/anoi.exe -I. src/main.cpp src/functions.cpp src/storage.cpp src/tui
 
 ### Binary:
 
-1. Download the latest .exe file from the [latest release](https://github.com/MedovarskyMax/Anoi-CLI/releases/latest)
+1. Download the **.exe** file from the [latest release](https://github.com/MedovarskyMax/Anoi-CLI/releases/latest)
 2. Move it to a folder and add that folder to your PATH
 3. Open a **new Terminal** and run `anoi --version` to see if anoi has been successfully installed 
 
