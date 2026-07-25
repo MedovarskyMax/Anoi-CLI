@@ -40,27 +40,30 @@ void startInteractiveTUI(){   // MAIN
     firstRender = false;
   }
 
+  std::vector<std::pair<std::string, std::string>> pairs;
+
   while (running){
     int c = readKey();
-    int pairsNum = (int) getShortcutUrlPairs().size();
+    pairs = getShortcutUrlPairs();
+    int pairsNum = (int) pairs.size();
 
     if (c == KEY_Q){ break; }
 
     switch (c){
       case KEY_UP: {
         selected = (selected - 1 + pairsNum) % pairsNum;
-        render(getShortcutUrlPairs(), selected, firstRender);
+        render(pairs, selected, firstRender);
         break;
       };
 
       case KEY_DOWN: {
         selected = (selected + 1) % pairsNum;
-        render(getShortcutUrlPairs(), selected, firstRender);
+        render(pairs, selected, firstRender);
         break;
       };
 
       case KEY_O: {
-        openURL(getShortcutUrlPairs()[selected].first);
+        openURL(pairs[selected].first);
         break;
       };
 
@@ -87,7 +90,7 @@ void startInteractiveTUI(){   // MAIN
         running = false;
         restoreMode();
 
-        std::string shortcut = getShortcutUrlPairs()[selected].first;
+        std::string shortcut = pairs[selected].first;
 
         std::cout << "Url: ";
         std::string url;
@@ -104,7 +107,6 @@ void startInteractiveTUI(){   // MAIN
         running = false;
         restoreMode();
 
-        std::vector<std::pair<std::string, std::string>> pairs = getShortcutUrlPairs();
         std::string shortcut = pairs[selected].first;
 
         bool removed = removeShortcut(shortcut, false);
@@ -121,7 +123,7 @@ void startInteractiveTUI(){   // MAIN
         restoreMode();
 
         if (confirmDeleteAll()){
-          for (const auto& [shortcut, url] : getShortcutUrlPairs()){
+          for (const auto& [shortcut, url] : pairs){
             removeShortcut(shortcut, true);
           }
           break;
