@@ -5,9 +5,10 @@
 #include <windows.h>
 #include <string>
 #include <vector>
-
+#include <algorithm>
 
 bool confirmDelete();
+const std::vector<std::string> invalidShortcutNames = {"add", "edit", "rm", "ls", "-h", "--help", "-v", "--version"};
 
 
 void printHelp(){
@@ -19,7 +20,15 @@ void printHelp(){
   std::cout << "        anoi edit <shortcut> <url>           Updates the <url> assigned to <shortcut>\n";
   std::cout << "        anoi rm <shortcut> \033[2m[-f | --force]\033[0m    Removes <shortcut>\033[2m, using optional force flag skips remove confirmation\033[0m\n";
   std::cout << "        anoi ls \033[2m[-t | --tui]\033[0m                 Lists all saved <shortcut> : <url> combinations\033[2m, optional TUI flag opens the list in a TUI\033[0m\n";
-  std::cout << "        anoi \033[2m[-h | --help] [-v | --version]\033[0m  Opens interactive TUI\033[2m, optional help flag shows help & optional version flag display version\033[0m\n";
+  std::cout << "        anoi \033[2m[-h | --help] [-v | --version]\033[0m  Opens interactive TUI\033[2m, optional help flag shows help & optional version flag display version\033[0m\n\n";
+  
+  std::cout << "Invalid <shortcut> names:  ";
+
+  for (const auto& name : invalidShortcutNames){
+    std::cout << name << " ";
+  }
+
+  std::cout << "\n\n";
 }
 
 
@@ -65,6 +74,7 @@ bool removeShortcut(std::string shortcut, bool force){
 
 void addShortcut(std::string shortcut, std::string url){
   bool isKeyConflict = false;
+  bool shortcutContainsEmpty = false;
   bool invalidShortcutName = false;
 
   for (const auto& p : getShortcutUrlPairs()){
@@ -75,6 +85,10 @@ void addShortcut(std::string shortcut, std::string url){
   }
 
   if (shortcut.find(" ") != std::string::npos){
+    shortcutContainsEmpty = true;
+  }
+
+  if (std::find(invalidShortcutNames.begin(), invalidShortcutNames.end(), shortcut) != invalidShortcutNames.end()){
     invalidShortcutName = true;
   }
 
@@ -84,8 +98,13 @@ void addShortcut(std::string shortcut, std::string url){
     return;
   }
 
+  if (shortcutContainsEmpty){
+    std::cout << "Shortcut must be only one word, save aborted.\n";
+    return;
+  }
+
   if (invalidShortcutName){
-    std::cout << "Invalid shortcut name, save aborted.\n";
+    std::cout << "Invalid shortcut name, save aborted. \033[2mCheck anoi -h to see inavlid shortcut names.\033[0m\n";
     return;
   }
 
