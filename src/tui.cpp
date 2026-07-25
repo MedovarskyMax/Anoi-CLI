@@ -29,115 +29,119 @@ const int KEY_R = 1008;
 const int KEY_D = 1009;
 
 void startInteractiveTUI(){   // MAIN
-  bool running = true;
-  enableRawMode();
+  bool restart = true;
+  while (restart){
+    restart = false;
+    bool running = true;
+    enableRawMode();
 
-  int selected = 0;
+    int selected = 0;
 
-  if (firstRender){
-    std::cout << "-----------------------------------------------------------------------------------------\n";
-    render(getShortcutUrlPairs(), selected, firstRender);
-    firstRender = false;
-  }
+    if (firstRender){
+      std::cout << "-----------------------------------------------------------------------------------------\n";
+      render(getShortcutUrlPairs(), selected, firstRender);
+      firstRender = false;
+    }
 
-  std::vector<std::pair<std::string, std::string>> pairs;
+    std::vector<std::pair<std::string, std::string>> pairs;
 
-  while (running){
-    int c = readKey();
-    pairs = getShortcutUrlPairs();
-    int pairsNum = (int) pairs.size();
+    while (running){
+      int c = readKey();
+      pairs = getShortcutUrlPairs();
+      int pairsNum = (int) pairs.size();
 
-    if (c == KEY_Q){ break; }
+      if (c == KEY_Q){ break; }
 
-    switch (c){
-      case KEY_UP: {
-        selected = (selected - 1 + pairsNum) % pairsNum;
-        render(pairs, selected, firstRender);
-        break;
-      };
+      switch (c){
+        case KEY_UP: {
+          selected = (selected - 1 + pairsNum) % pairsNum;
+          render(pairs, selected, firstRender);
+          break;
+        };
 
-      case KEY_DOWN: {
-        selected = (selected + 1) % pairsNum;
-        render(pairs, selected, firstRender);
-        break;
-      };
+        case KEY_DOWN: {
+          selected = (selected + 1) % pairsNum;
+          render(pairs, selected, firstRender);
+          break;
+        };
 
-      case KEY_O: {
-        openURL(pairs[selected].first);
-        break;
-      };
+        case KEY_O: {
+          openURL(pairs[selected].first);
+          break;
+        };
 
-      case KEY_A: {
-        running = false;
-        restoreMode();
+        case KEY_A: {
+          running = false;
+          restoreMode();
 
-        std::cout << "Shortcut: ";
-        std::string shortcut;
-        std::getline(std::cin, shortcut); 
+          std::cout << "Shortcut: ";
+          std::string shortcut;
+          std::getline(std::cin, shortcut); 
 
-        std::cout << "Url: ";
-        std::string url;
-        std::getline(std::cin, url);
+          std::cout << "Url: ";
+          std::string url;
+          std::getline(std::cin, url);
 
-        addShortcut(shortcut, url);
+          addShortcut(shortcut, url);
 
-        firstRender = true;
-        startInteractiveTUI();
-        break;
-      };
-
-      case KEY_E: {
-        running = false;
-        restoreMode();
-
-        std::string shortcut = pairs[selected].first;
-
-        std::cout << "Url: ";
-        std::string url;
-        std::getline(std::cin, url);
-
-        updateShortcut(shortcut, url);
-
-        firstRender = true;
-        startInteractiveTUI();
-        break;
-      };
-
-      case KEY_R: {
-        running = false;
-        restoreMode();
-
-        std::string shortcut = pairs[selected].first;
-
-        bool removed = removeShortcut(shortcut, false);
-
-        if (pairs.size() != 1 || !removed){
           firstRender = true;
-          startInteractiveTUI();
-        }
-        break;
-      };
+          restart = true;
+          break;
+        };
 
-      case KEY_D: {
-        running = false;
-        restoreMode();
+        case KEY_E: {
+          running = false;
+          restoreMode();
 
-        if (confirmDeleteAll()){
-          for (const auto& [shortcut, url] : pairs){
-            removeShortcut(shortcut, true);
+          std::string shortcut = pairs[selected].first;
+
+          std::cout << "Url: ";
+          std::string url;
+          std::getline(std::cin, url);
+
+          updateShortcut(shortcut, url);
+
+          firstRender = true;
+          restart = true;
+          break;
+        };
+
+        case KEY_R: {
+          running = false;
+          restoreMode();
+
+          std::string shortcut = pairs[selected].first;
+
+          bool removed = removeShortcut(shortcut, false);
+
+          if (pairs.size() != 1 || !removed){
+            firstRender = true;
+            restart = true;
           }
           break;
-        } else {
-          std::cout << "Confirmation Failed\n";
-          firstRender = true;
-          startInteractiveTUI();
-          break;
-        }        
+        };
+
+        case KEY_D: {
+          running = false;
+          restoreMode();
+
+          if (confirmDeleteAll()){
+            for (const auto& [shortcut, url] : pairs){
+              removeShortcut(shortcut, true);
+            }
+            break;
+          } else {
+            std::cout << "Confirmation Failed\n";
+            firstRender = true;
+            restart = true;
+            break;
+          }        
+        }
       }
     }
-  }
 
-  restoreMode();
+    restoreMode();
+  }
 }
 
 
