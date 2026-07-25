@@ -10,7 +10,7 @@ A lightweight Windows CLI for saving, browsing, and opening URL shortcuts — wi
 - Interactive TUI for browsing and managing shortcuts with arrow keys
 - Confirmation prompts before destructive actions (remove / remove all)
 ## Installation
-
+### Dev:
 ```
 git clone https://github.com/MedovarskyMax/Anoi-CLI.git
 cd Anoi-CLI
@@ -18,6 +18,14 @@ g++ -o build/anoi.exe -I. src/main.cpp src/functions.cpp src/storage.cpp src/tui
 ```
 
 > Requires Windows (uses the Windows Console API and `ShellExecuteA`).
+
+---
+
+### Binary:
+
+1. Download the latest .exe file from the [latest release](https://github.com/MedovarskyMax/Anoi-CLI/releases/latest)
+2. Move it to a folder and add that folder to your PATH
+3. Open a **new Terminal** and run `anoi --version` to see if anoi has been successfully installed 
 
 ## Usage
 
@@ -59,7 +67,7 @@ Shortcuts are stored as JSON in `%APPDATA%\anoi\config.json`.
 Example:
 ```
 {
-  "gh": "https:/www.github.com",
+  "gh": "https://www.github.com",
   "shortcut_1": "url_1"
 }
 ```
