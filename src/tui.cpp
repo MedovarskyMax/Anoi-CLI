@@ -54,12 +54,16 @@ void startInteractiveTUI(){   // MAIN
 
       switch (c){
         case KEY_UP: {
+          if (pairsNum == 0){ break; }
+
           selected = (selected - 1 + pairsNum) % pairsNum;
           render(pairs, selected, firstRender);
           break;
         };
 
         case KEY_DOWN: {
+          if (pairsNum == 0){ break; }
+          
           selected = (selected + 1) % pairsNum;
           render(pairs, selected, firstRender);
           break;
