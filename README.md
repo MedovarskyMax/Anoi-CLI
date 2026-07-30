@@ -1,4 +1,4 @@
-# Anoi - v1.0.0
+# Anoi
 
 A lightweight Windows CLI for saving, browsing, and opening URL shortcuts — with an optional interactive TUI.
 
@@ -71,12 +71,6 @@ Example:
   "shortcut_1": "url_1"
 }
 ```
-
-## Status
-
-Version 1.0.0
-
-Contributions and issue reports welcome.
 
 ## License
 
